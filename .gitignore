@@ -1,0 +1,23 @@
+# Environnement virtuel
+venv/
+env/
+*.pyc
+__pycache__/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Base de données
+data/chess_tournament.json
+
+# Rapports Flake8
+flake8_report/
+htmlcov/
+.coverage
+
+# OS
+.DS_Store
+Thumbs.db
