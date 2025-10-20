@@ -36,6 +36,7 @@ def charger_donnees(filepath):
 
 def test_force_brute(filepath):
     """Teste Force Brute"""
+    filepath = f"../{filepath}"
     actions = charger_donnees(filepath)
     if not actions:
         return
@@ -49,6 +50,7 @@ def test_force_brute(filepath):
 
 def test_dp(filepath):
     """Teste Programmation Dynamique"""
+    filepath = f"../{filepath}"
     actions = charger_donnees(filepath)
     if not actions:
         return
@@ -62,6 +64,7 @@ def test_dp(filepath):
 
 def comparer_deux_algos(filepath):
     """Compare Force Brute vs DP"""
+    filepath = f"../{filepath}"
     actions = charger_donnees(filepath)
     if not actions:
         return
@@ -141,9 +144,9 @@ def afficher_resultats_dp(dp, portfolio):
 def comparer_tous_datasets():
     """Compare les trois datasets avec DP"""
     datasets = [
-        ('data_test.csv', 'Data Test (20 actions)'),
-        ('dataset1_Python+P3.csv', 'Dataset 1 (25 actions)'),
-        ('dataset2_Python+P3.csv', 'Dataset 2 (541 actions)')
+        ('../data_test.csv', 'Data Test (20 actions)'),
+        ('../dataset1_Python+P3.csv', 'Dataset 1 (25 actions)'),
+        ('../dataset2_Python+P3.csv', 'Dataset 2 (541 actions)')
     ]
     
     resultats = []

@@ -1,0 +1,123 @@
+═══════════════════════════════════════════════════════════════════════════════
+🎯 LOCALISATION DES ALGORITHMES - LIGNES DE CODE ESSENTIELLES
+═══════════════════════════════════════════════════════════════════════════════
+
+📂 Dossier: c:\Users\Djibril\OneDrive\Bureau\PRJ4\MOI\controllers\
+
+═══════════════════════════════════════════════════════════════════════════════
+1️⃣  FORCE BRUTE - brute_force_resolver.py (44 lignes totales)
+═══════════════════════════════════════════════════════════════════════════════
+
+📍 Classe: BruteForceResolver (Ligne 6)
+📍 Méthode solve(): Ligne 14
+
+🔑 LA BOUCLE PRINCIPALE (Lignes 19-32):
+
+    Ligne 19 : for r in range(len(self.actions) + 1):
+    Ligne 20 :     for combination in combinations(self.actions, r):  ⭐ 2^n combos
+    Ligne 21 :         self.iterations += 1
+    Ligne 22 :         portfolio = Portfolio(list(combination))
+    Ligne 23 :         if portfolio.is_valid(self.max_budget):        ⭐ Vérifie budget
+    Ligne 24 :             current_profit = portfolio.get_total_profit()
+    Ligne 25 :             if current_profit > best_profit:           ⭐ Garde meilleur
+    Ligne 26 :                 best_profit = current_profit
+    Ligne 27 :                 best_portfolio = portfolio
+
+⏱️  Complexité: O(2^n) = LENT
+⚡ n=25: 109 secondes
+═══════════════════════════════════════════════════════════════════════════════
+
+2️⃣  PROGRAMMATION DYNAMIQUE - dynamic_programming_resolver.py (49 lignes totales)
+═══════════════════════════════════════════════════════════════════════════════
+
+📍 Classe: DynamicProgrammingResolver (Ligne 6)
+📍 Méthode solve(): Ligne 14
+
+🔑 ÉTAPE 1 - CRÉER TABLE DP (Lignes 18-19):
+
+    Ligne 18 : # Table DP: dp[i][w] = profit max avec i actions et budget w
+    Ligne 19 : dp = [[0 for _ in range(self.max_budget + 1)] for _ in range(n + 1)]
+
+🔑 ÉTAPE 2 - REMPLIR TABLE (Lignes 21-28):
+
+    Ligne 21 : for i in range(1, n + 1):
+    Ligne 22 :     action = self.actions[i - 1]
+    Ligne 23 :     cost = int(action.cost)
+    Ligne 24 :     profit = action.get_profit()
+    Ligne 25 :     for w in range(self.max_budget + 1):
+    Ligne 26 :         dp[i][w] = dp[i - 1][w]                      ⭐ Ne pas prendre
+    Ligne 27 :         if cost <= w:
+    Ligne 28 :             dp[i][w] = max(dp[i][w], dp[i - 1][w - cost] + profit)  ⭐ Ou prendre
+
+🔑 ÉTAPE 3 - BACKTRACKING (Lignes 30-38):
+
+    Ligne 30 : selected_actions = []
+    Ligne 31 : w = self.max_budget
+    Ligne 32 : for i in range(n, 0, -1):
+    Ligne 33 :     if dp[i][w] != dp[i - 1][w]:                    ⭐ Action prise?
+    Ligne 34 :         selected_actions.append(self.actions[i - 1])
+    Ligne 35 :         w -= int(self.actions[i - 1].cost)
+    Ligne 36 : selected_actions.reverse()
+
+⏱️  Complexité: O(n × W) = RAPIDE ✅
+⚡ n=25: 3.7 secondes
+🚀 SPEEDUP: 29.5× plus rapide
+═══════════════════════════════════════════════════════════════════════════════
+
+📊 TABLEAU COMPARATIF
+
+                    FORCE BRUTE             PROGRAMMATION DYNAMIQUE
+Fichier             brute_force_            dynamic_programming_
+                    resolver.py             resolver.py
+
+Lignes totales      44                      49
+
+Classe              BruteForceResolver      DynamicProgrammingResolver
+
+Méthode solve()     Ligne 14                Ligne 14
+
+Boucle principal    Lignes 19-20            Lignes 21-28
+(remplissage)
+
+Complexité          O(2^n)                  O(n × W)
+
+Performance         109 sec (n=25)          3.7 sec (n=25)
+
+Speedup             LENT ❌                 29.5× RAPIDE ✅
+
+Utilité             Petit n (<20)           PRODUCTION ⭐
+
+═══════════════════════════════════════════════════════════════════════════════
+
+🎓 COMPRENDRE LES ALGORITHMES
+
+FORCE BRUTE:
+  ├─ Ligne 20: combinations() génère C(n,0), C(n,1), ..., C(n,n)
+  ├─ Résultat: 2^n combinaisons testées
+  ├─ Ligne 23: Filtre les valides (respectent budget)
+  ├─ Lignes 25-27: Garde la meilleure
+  └─ AVANTAGE: Garantit solution optimale
+     INCONVÉNIENT: Très lent quand n augmente
+
+PROGRAMMATION DYNAMIQUE:
+  ├─ Ligne 19: Table [n+1][W+1] créée (taille fixe)
+  ├─ Lignes 21-28: Remplit la table ONCE
+  ├─ Ligne 26: Option "ne pas prendre" = ligne précédente
+  ├─ Ligne 28: Option "prendre" = profit précédent + profit actuel
+  ├─ Lignes 32-35: Backtrack pour trouver quelles actions prendre
+  └─ AVANTAGE: Rapide, optimal, scalable
+     INCONVÉNIENT: Plus complexe à comprendre
+
+═══════════════════════════════════════════════════════════════════════════════
+
+💡 POINTS CLÉS
+
+Force Brute (Ligne 20):
+    for combination in combinations(self.actions, r):
+    └─→ C'EST ICI que ça teste 2^n possibilités
+
+Programmation Dynamique (Ligne 28):
+    dp[i][w] = max(dp[i][w], dp[i - 1][w - cost] + profit)
+    └─→ C'EST ICI que se fait la logique optimale (choix ou pas)
+
+═══════════════════════════════════════════════════════════════════════════════
