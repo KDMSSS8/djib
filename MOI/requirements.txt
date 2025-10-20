@@ -1,0 +1,2 @@
+# Dépendances du projet
+# Ajouter les packages nécessaires ici
